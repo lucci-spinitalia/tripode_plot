@@ -4,7 +4,7 @@ __author__ = 'Luca Lucci'
 
 from twisted.internet import protocol, reactor
 from twisted.protocols.basic import LineReceiver
-import re, signal, sys, traceback, logging
+import re, signal, logging
 import plot
 
 
@@ -138,9 +138,7 @@ class ALMA_Tripod():
 
                     self.posProgress = canopen_status.group(11)
         except Exception, e:
-            # Potrebbe essere semplicemente non disponibile un dato!
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            traceback.print_exception(exc_type, exc_value, exc_traceback, limit=2, file=sys.stdout)
+            logger.info(e.message)
 
     def traslate_status(self, status):
 
@@ -190,7 +188,7 @@ if __name__ == '__main__':
 
     # Avvio il server TCP
 
-    reactor.connectTCP("192.168.1.177", 10101, ALMA_Streamer_Factory(tripod))
+    reactor.connectTCP("192.168.1.117", 10101, ALMA_Streamer_Factory(tripod))
     #reactor.connectTCP("192.168.178.156", 10002, ALMA_Control_Factory(tripod))
 
     # Avvio il reattore!

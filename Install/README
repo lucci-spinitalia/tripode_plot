@@ -1,0 +1,39 @@
+Requisiti di sistema:
+---------------------
+
+  - Raspberry pi 2 modello B con Raspbian
+  - Scheda interfaccia CANbus PEP.30.02.00.0.0
+
+
+Configurare il sistema:
+------------------------
+
+Prima di tutto è necessario abilitare la SPI. Avviare il comando di configurazione tramite
+
+	sudo rapi-config
+
+Selezionare la voce "Advanced Options" e poi "A6 SPI". A questo punto abilitare la SPI.
+
+Aggiornare la raspberry:
+
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo reboot
+
+ed aprire il file:
+
+	sudo nano /boot/config.txt
+
+per aggiungere le seguenti linee alla fine del file
+
+	dtparam=spi=on
+	dtoverlay=mcp2515-can0-overlay,oscillator=16000000,interrupt=25
+	dtoverlay=spi-bcm2835-overlay
+
+Riavviare la raspberry:
+
+	sudo reboot
+
+Installare i tool di prova can test:
+
+	sudo apt-get install can-utils
